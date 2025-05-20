@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>שאלון בן דוב</title>
+<style>
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    overflow: hidden;
+  }
+  #background {
+    position: fixed;
+    width: 100%; height: 100%;
+    z-index: -1;
+  }
+  .container {
+    height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+  }
+  .question-box {
+    background: rgba(0,0,0,0.7);
+    padding: 25px 30px;
+    border-radius: 15px;
+    max-width: 90vw;
+  }
+  input[type=text] {
+    margin-top: 20px;
+    font-size: 18px;
+    padding: 10px;
+    width: 80vw;
+    border-radius: 10px;
+    border: none;
+  }
+  button {
+    margin-top: 20px;
+    background: #ff4081;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #e73370;
+  }
+  .logo {
+    position: fixed;
+    bottom: 10px; right: 10px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-size: 14px;
+    color: #eee;
+  }
+  .logo img {
+    vertical-align: middle;
+    height: 20px;
+    margin-left: 6px;
+  }
+  .meme {
+    margin-top: 20px;
+    width: 280px;
+    border-radius: 12px;
+  }
+</style>
+</head>
+<body>
+<div id="background"></div>
+
+<form id="form" class="container" action="https://formspree.io/f/mjkwzjvr" method="POST">
+  <div class="question-box">
+    <div id="question"></div>
+    <input type="text" id="answer" name="answer1" required autocomplete="off" />
+    <button type="button" onclick="nextQuestion()">הבא</button>
+  </div>
+</form>
+
+<div class="logo">
+  נוצר באהבה על ידי גולן
+  <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Logo" />
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+<script>
+  VANTA.NET({
+    el: "#background",
+    mouseControls: true,
+    touchControls: true,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    scale: 1.00,
+    scaleMobile: 1.00,
+    color: 0xff4081,
+    backgroundColor: 0x111111
+  });
+
+  const questions = [
+    "מה הדבר שאת הכי אוהבת בבן דוב?",
+    "אם היית צריכה לתאר את בן דוב במילה אחת – מה היא הייתה?",
+    "מה הרגע הכי מיוחד שהיה לך עם בן דוב?",
+    "אם היית משנה משהו קטן בבן דוב – מה זה היה?",
+    "איזה תכונה של בן דוב את הכי מעריכה?",
+    "מה את מרגישה כשאת רואה את בן דוב?",
+    "מה הדבר הכי רומנטי שבן דוב עשה בשבילך?",
+    "איך את יודעת שבן דוב אוהב אותך?",
+    "מה בן דוב עושה שגורם לך להתגעגע אליו?",
+    "אם הייתם סרט – מה היה הסיפור של בן דוב בו?",
+    "מה הדבר הכי מצחיק שבן דוב עושה בלי לשים לב?",
+    "איך את מתארת את בן דוב לחברה שלך?",
+    "איך בן דוב מחבק?",
+    "האם את אוהבת את איך שבן דוב נראה?",
+    "מה את חושבת על גולן?",
+  ];
+
+  let current = 0;
+  const questionBox = document.getElementById("question");
+  const answerInput = document.getElementById("answer");
+  const form = document.getElementById("form");
+
+  questionBox.innerText = questions[current];
+
+  function nextQuestion() {
+    if(answerInput.value.trim() === "") {
+      alert("אנא השיבי על השאלה לפני המעבר!");
+      return;
+    }
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = `answer${current + 1}`;
+    input.value = answerInput.value;
+    form.appendChild(input);
+
+    current++;
+
+    if (current < questions.length) {
+      questionBox.innerText = questions[current];
+      answerInput.value = "";
+      answerInput.name = `answer${current + 1}`;
+      answerInput.focus();
+    } else {
+      form.innerHTML = `
+      <div class="question-box">
+        <div>תודה שענית על כל השאלות! 💖</div>
+        <img class="meme" src="https://media.giphy.com/media/3orieVRZ2x4MlOvyGk/giphy.gif" alt="Funny meme" />
+        <div style="margin-top: 20px;">ולבסוף... את אוהבת את בן דוב חזרה?</div>
+        <button type="submit" style="margin-right:10px;">כן!</button>
+        <button type="button" onclick="alert('מהההההה?! תחשבי שוב!')">לא</button>
+      </div>
+      `;
+    }
+  }
+</script>
+</body>
+</html>
